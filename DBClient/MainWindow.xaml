@@ -1,0 +1,95 @@
+﻿<Window x:Class="DBClient.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        xmlns:src="clr-namespace:DBClient"
+        x:Name="Window" Title="MessagesManager" Height="400" Width="800">
+    <DockPanel>
+        <StackPanel DockPanel.Dock="Bottom">
+            <Button x:Name="SaveBtn" Content="Save All Changes" Background="AliceBlue" VerticalAlignment="Bottom" HorizontalAlignment="Center" Click="SaveBtn_Click"/>
+            <Label Content="Made by Yevhenii Serdiuk, IS-4124, KPI, 2016" HorizontalAlignment="Right" VerticalAlignment="Bottom" FontFamily="Buxton Sketch" FontSize="13.333"/>
+        </StackPanel>
+        <ScrollViewer DockPanel.Dock="Top" VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Auto">
+            <StackPanel>
+                <StackPanel.Resources>
+                    <Style x:Key="WrapElement">
+                        <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                        <Setter Property="TextBlock.TextAlignment" Value="Left"/>
+                    </Style>
+                </StackPanel.Resources>
+                <TabControl BorderThickness="0">
+                    <TabItem Header="Messages" Background="AliceBlue">
+                        <DataGrid x:Name="MessagesTable" HorizontalAlignment="Center" VerticalAlignment="Center" AutoGenerateColumns="False">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Sending Date" Binding="{Binding Path=SendingDate, StringFormat=d}" MinWidth="5"/>
+                                <DataGridTextColumn Header="Content" Binding="{Binding Path=Content}" ToolTipService.ToolTip="{Binding Path=Content}" MaxWidth="150" ElementStyle="{StaticResource WrapElement}"/>
+                                <DataGridComboBoxColumn Header="Topic" SelectedItemBinding="{Binding Path=Topic}"/>
+                                <DataGridComboBoxColumn Header="Sender" SelectedItemBinding="{Binding Path=Sender}"/>
+                                <DataGridComboBoxColumn Header="Reciever" SelectedItemBinding="{Binding Path=Reciever}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+                    <TabItem Header="Topics" Background="AliceBlue">
+                        <DataGrid x:Name="TopicsTable" HorizontalAlignment="Center" VerticalAlignment="Center" AutoGenerateColumns="False" RowDetailsVisibilityChanged="TopicsTable_RowDetailsVisibilityChanged" PreviewKeyDown="TopicsTable_PreviewKeyDown">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Name" Binding="{Binding Path=Name}" MaxWidth="150" ElementStyle="{StaticResource WrapElement}"/>
+                                <DataGridTextColumn Header="Creation Date" Binding="{Binding Path=CreationDate, StringFormat=d}"/>
+                                <DataGridComboBoxColumn Header="Status" SelectedItemBinding="{Binding Path=Status}">
+                                    <DataGridComboBoxColumn.ItemsSource>
+                                        <x:Array Type="sys:String">
+                                            <sys:String>В черзі на розгляд</sys:String>
+                                            <sys:String>В обробці</sys:String>
+                                            <sys:String>Розглянуто</sys:String>
+                                            <sys:String>Відхилено</sys:String>
+                                        </x:Array>
+                                    </DataGridComboBoxColumn.ItemsSource>
+                                </DataGridComboBoxColumn>
+                            </DataGrid.Columns>
+                            <DataGrid.RowDetailsTemplate>
+                                <DataTemplate>
+                                    <DataGrid AutoGenerateColumns="False" CanUserAddRows="False">
+                                        <DataGrid.Columns>
+                                            <DataGridTextColumn Header="Sending Date" Binding="{Binding Path=SendingDate, StringFormat=d}"/>
+                                            <DataGridTextColumn Header="Content" Binding="{Binding Path=Content}" MaxWidth="150" ElementStyle="{StaticResource WrapElement}"/>
+                                            <DataGridTextColumn Header="Sender" Binding="{Binding Path=Sender}"/>
+                                            <DataGridTextColumn Header="Reciever" Binding="{Binding Path=Reciever}"/>
+                                        </DataGrid.Columns>
+                                    </DataGrid>
+                                </DataTemplate>
+                            </DataGrid.RowDetailsTemplate>
+                        </DataGrid>
+                    </TabItem>
+
+                    <TabItem Header="Addressers" Background="AliceBlue">
+                        <DataGrid x:Name="AddressersTable" HorizontalAlignment="Center" VerticalAlignment="Center" AutoGenerateColumns="False" PreviewKeyDown="AddressersTable_PreviewKeyDown">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Contact Name" Binding="{Binding Path=ContactName}"/>
+                                <DataGridTextColumn Header="City" Binding="{Binding Path=City}"/>
+                                <DataGridTextColumn Header="Street" Binding="{Binding Path=Street}"/>
+                                <DataGridTextColumn Header="Building" Binding="{Binding Path=BuildingNumber}"/>
+                                <DataGridTextColumn Header="Position" Binding="{Binding Path=Position}"/>
+                                <DataGridTextColumn Header="Organization" Binding="{Binding Path=OrganizationName}"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </TabItem>
+
+                    <TabItem Header="Reports" Background="AliceBlue" GotFocus="TabItem_GotFocus">
+                        <TextBlock x:Name="ReportBlock"/>
+                    </TabItem>
+
+                    <TabItem Header="About" Background="AliceBlue">
+                        <TextBlock FontFamily="Segoe Print" FontSize="21.333" >
+                            Курсова робота по дисципліні "Бази Даних"<LineBreak/>
+                            Застосування для роботи з базаю даних<LineBreak/>
+                            Тема: "Приймальня народного депутата"<LineBreak/>
+                            Виконав: Сердюк Євгеній, ІС-41<LineBreak/>
+                            КПІ, 2016
+                        </TextBlock>
+                    </TabItem>
+
+                </TabControl>
+            </StackPanel>
+        </ScrollViewer>
+    </DockPanel>
+</Window>
